@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM RPS</title>
+    <style> 
+
+        body{
+
+        font-family: Arial;
+        }
+
+        .subscribe-button {
+            border: none;
+            background-color: black;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .subscribe-button.is-subscribed {
+            background-color: rgb(240, 240, 240);
+            color: black;
+        }
+
+        .cost-input {
+            font-size: 15px;
+            /*
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            */
+            padding: 10px;  
+        }
+
+        .calculate-button {
+            background-color: green;
+            color: aliceblue;
+            border: none;
+            font-size: 15px;
+            padding: 12px 15px;
+            cursor: pointer;
+        }
+       
+    </style>
+</head>
+<body>
+
+    <p>YouTube Subscribe Button</p>
+    <button onclick="subscribe()" class="js-subscribe-button subscribe-button">Subscribe</button>
+
+    <p>Amazon Shipping Calculator</p>
+    <input 
+        type="number" 
+        placeholder="Cost of order"  
+        class="js-cost-input js-cost-input" 
+        onkeydown="handleCostKeydown(event)"
+    >
+    <button onclick="calculateTotal(); " class="calculate-button">Calculate</button>
+
+    <p class="js-total-cost"></p>
+
+    <script>
+        // Handle Enter key press in the input field
+        function handleCostKeydown(event) {
+            if (event.key === 'Enter') {
+                calculateTotal();
+            }
+        }
+
+        // Calculate the total cost based on the input
+        function calculateTotal() {
+            const inputElement = document.querySelector('.js-cost-input');
+            const outputElement = document.querySelector('.js-total-cost');
+
+            // Get the input value as a number
+            const cost = parseFloat(inputElement.value);
+
+            // Validate the input
+            if (isNaN(cost) || cost <= 0) {
+                outputElement.innerHTML = "Please enter a valid positive number.";
+                return;
+            }
+
+            // Add $10 for orders under $40
+            const totalCost = cost < 40 ? cost + 10 : cost;
+
+            // Display the total cost
+            outputElement.innerHTML = `Total cost: $${totalCost.toFixed(2)}`;
+        }
+
+        // Toggle the Subscribe button text and color
+        function subscribe() {
+            const buttonElement = document.querySelector('.js-subscribe-button');
+            if (buttonElement.innerHTML === 'Subscribe') {
+                buttonElement.innerHTML = 'Subscribed';
+                buttonElement.classList.add('is-subscribed');
+            } else {
+                buttonElement.innerHTML = 'Subscribe';
+                buttonElement.classList.remove('is-subscribed');
+            }
+        }
+    </script>
+</body>
+</html>
